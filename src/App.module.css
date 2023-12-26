@@ -1,9 +1,6 @@
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 20px;
-  padding: 35px 15px;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 16px;
+  padding-bottom: 24px;
 }

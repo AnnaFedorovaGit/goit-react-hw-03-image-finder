@@ -44,7 +44,6 @@ class App extends Component {
 
     handleOpenModal = (largeImage) => {
         this.setState({ largeImage: largeImage })
-        // console.log(largeImage);
     }
 
     toggleModal = () => {
@@ -86,7 +85,7 @@ class App extends Component {
 
                 {Boolean(images.length) && <Button handleLoadMore={this.handleLoadMore} />}
 
-                {largeImage && <Modal><img className={cssImageItem.modal} src={largeImage.largeImageURL} alt={largeImage.tags} hideModal={this.toggleModal} /></Modal>}
+                {largeImage && <Modal hideModal={this.toggleModal}><img className={cssImageItem.modal} src={largeImage.largeImageURL} alt={largeImage.tags} /></Modal>}
 			</div>
 		)
 	}

@@ -6,13 +6,11 @@ class Modal extends Component {
 
     handleEsc = (e) => {
         if (e.code === 'Escape') {
-            console.log('Press')
             this.props.hideModal();
         }
     }
     
     componentDidMount = () => {
-        // document.addEventListener('keydown', (e) => this.handleEsc.bind(this, e))
         document.addEventListener('keydown', this.handleEsc)
     }
 

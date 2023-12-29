@@ -86,7 +86,7 @@ class App extends Component {
 
                 {Boolean(images.length) && <Button handleLoadMore={this.handleLoadMore} />}
 
-                {largeImage && <Modal><img className={cssImageItem.modal} src={largeImage.largeImageURL} hideModal={this.toggleModal} /></Modal>}
+                {largeImage && <Modal><img className={cssImageItem.modal} src={largeImage.largeImageURL} alt={largeImage.tags} hideModal={this.toggleModal} /></Modal>}
 			</div>
 		)
 	}

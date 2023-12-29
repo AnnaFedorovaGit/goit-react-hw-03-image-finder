@@ -1,15 +1,34 @@
+import { Component } from 'react'
 import css from './Modal.module.css'
 
 
-const Modal = () => {   
-    return (
-        <div className={css.overlay}>
-            <div className={css.modal}>
-                <img className={css.image} src="" alt="" />
+class Modal extends Component {
+
+    handleEsc = (e) => {
+        if (e.code === 'Escape') {
+            console.log('Press')
+            this.props.hideModal();
+        }
+    }
+    
+    componentDidMount = () => {
+        document.addEventListener('keydown', (e) => this.handleEsc.bind(this, e))
+    }
+
+    componentWillUnmount = () => {
+        document.removeEventListener('keydown', this.handleEsc)
+    }
+    
+    render() {
+        return (
+            <div className={css.overlay} onClick={this.props.hideModal}>
+                <div className={css.modal}>
+                    {this.props.children}
+                </div>
             </div>
-        </div>
-    )
+        )
+    }
 }
-
-
+    
+    
 export default Modal

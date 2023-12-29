@@ -2,11 +2,12 @@ import { Component } from 'react'
 import SearchBar from './components/Searchbar/Searchbar'
 import ImageGallery from './components/ImageGallery/ImageGallery'
 import { getAllImages } from './components/api/images'
-// import Modal from './components/Modal/Modal'
+import Modal from './components/Modal/Modal'
 import Loader from './components/Loader/Loader'
 import Button from './components/Button/Button'
 
 import css from './App.module.css'
+import cssImageItem from './components/Modal/Modal.module.css'
 
 
 class App extends Component {
@@ -16,6 +17,7 @@ class App extends Component {
         error: '',
         page: 1,
         value: '',
+        largeImage: null,
     }
 
     // componentDidMount() {
@@ -37,8 +39,19 @@ class App extends Component {
     }
 
     handleLoadMore = () => {
-        this.setState((prev) => ({ page: prev.page + 1 }));
+        this.setState((prev) => ({ page: prev.page + 1 }))
     }
+
+    handleOpenModal = (largeImage) => {
+        this.setState({ largeImage: largeImage })
+        // console.log(largeImage);
+    }
+
+    toggleModal = () => {
+		this.setState(() => ({
+			largeImage: null,
+		}))
+	}
 
     getImages = async (page, value) => { 
         try {
@@ -62,17 +75,18 @@ class App extends Component {
     }
     
 	render() {
-		const { images, isLoading, error } = this.state;
+		const { images, isLoading, error, largeImage } = this.state;
 		return (
 			<div className={css.wrapper}>
                 <SearchBar onSubmit={this.onSubmit} />
 				
-				{isLoading && <Loader />}
                 {error && <h1>{error}</h1>}
-                <ImageGallery images={images} />
-				{/* <Modal/> */}
-                {/* <Loader/> */}
+                {isLoading && <Loader /> }
+                <ImageGallery images={images} handleOpenModal={this.handleOpenModal}/>
+
                 {Boolean(images.length) && <Button handleLoadMore={this.handleLoadMore} />}
+
+                {largeImage && <Modal><img className={cssImageItem.modal} src={largeImage.largeImageURL} hideModal={this.toggleModal} /></Modal>}
 			</div>
 		)
 	}

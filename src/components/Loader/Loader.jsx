@@ -1,15 +1,20 @@
-import { Component } from 'react'
+import { DNA } from 'react-loader-spinner'
 import css from './Loader.module.css'
 
 
-class Loader extends Component {    
-	render() { 
-		return (
-			<div className={css.loader}>
-				<p>loader</p>
-			</div>
-		)
-	}
+const Loader = () => { 
+	return (
+		<div className={css.loader}>
+			<DNA
+				visible={true}
+				height="120"
+				width="120"
+				ariaLabel="dna-loading"
+				wrapperStyle={{}}
+				wrapperClass="dna-wrapper"
+			/>
+		</div>
+	)
 }
 
     

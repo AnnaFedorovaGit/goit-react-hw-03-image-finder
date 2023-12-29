@@ -12,7 +12,8 @@ class Modal extends Component {
     }
     
     componentDidMount = () => {
-        document.addEventListener('keydown', (e) => this.handleEsc.bind(this, e))
+        // document.addEventListener('keydown', (e) => this.handleEsc.bind(this, e))
+        document.addEventListener('keydown', this.handleEsc)
     }
 
     componentWillUnmount = () => {

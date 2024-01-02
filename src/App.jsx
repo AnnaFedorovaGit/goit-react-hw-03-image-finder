@@ -1,7 +1,7 @@
 import { Component } from 'react'
 import SearchBar from './components/Searchbar/Searchbar'
 import ImageGallery from './components/ImageGallery/ImageGallery'
-import { getAllImages } from './components/api/images'
+import { getAllImages } from './services/images'
 import Modal from './components/Modal/Modal'
 import Loader from './components/Loader/Loader'
 import Button from './components/Button/Button'
@@ -18,18 +18,11 @@ class App extends Component {
         page: 1,
         value: '',
         largeImage: null,
+        totalPages: 0,
     }
-
-    // componentDidMount() {
-    //     this.getImages(this.state.page)
-    // }
     
     componentDidUpdate(_, prevState) {
-        if (this.state.value !== prevState.value) {
-            this.getImages(1, this.state.value);
-        }
-
-        if (this.state.page !== prevState.page) {
+        if (this.state.value !== prevState.value || this.state.page !== prevState.page) {
             this.getImages(this.state.page, this.state.value);
         }
     }
@@ -61,6 +54,7 @@ class App extends Component {
             const response = await (getAllImages(page, value))
             this.setState((prev) => ({
                 images: this.state.page > 1 ? [...prev.images, ...response.hits] : response.hits,
+                totalPages: Math.ceil(response.totalHits / 12),
             }))
         } catch (error) {
             this.setState({
@@ -74,7 +68,7 @@ class App extends Component {
     }
     
 	render() {
-		const { images, isLoading, error, largeImage } = this.state;
+		const { images, isLoading, error, largeImage, totalPages, page } = this.state;
 		return (
 			<div className={css.wrapper}>
                 <SearchBar onSubmit={this.onSubmit} />
@@ -83,7 +77,7 @@ class App extends Component {
                 {isLoading && <Loader /> }
                 <ImageGallery images={images} handleOpenModal={this.handleOpenModal}/>
 
-                {Boolean(images.length) && <Button handleLoadMore={this.handleLoadMore} />}
+                {totalPages > 1 && page !== totalPages && <Button handleLoadMore={this.handleLoadMore} />}
 
                 {largeImage && <Modal hideModal={this.toggleModal}><img className={cssImageItem.modal} src={largeImage.largeImageURL} alt={largeImage.tags} /></Modal>}
 			</div>
